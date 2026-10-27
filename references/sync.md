@@ -8,6 +8,7 @@ For facts shared by different projects, designate one canonical owner per topic.
 
 ## Git cases
 
+- **Same repository, several people:** Follow [team sync](team-sync.md): one shared KB on the branch, a per-clone ingest marker, and `kb_sync.py` to pull, digest, and mark teammates' commits.
 - **Same repository, multiple worktrees:** Each worktree has its own checkout. Commit KB changes on the appropriate branch, then integrate into the designated branch through the reviewed merge workflow. Updating or pushing one worktree does not update the others; they must incorporate that branch or commit. Ask for merge authorization as specified in the worktree workflow.
 - **Different repositories:** Git has no automatic cross-repository synchronization. Update each repository's KB separately, retaining provenance and resolving conflicts before treating copies as current. Do not copy secrets or unrelated private context between repositories.
 - **No Git:** Maintain local Markdown and report that Git sync is unavailable. Do not initialize a Git repository or invent a remote without a user request.

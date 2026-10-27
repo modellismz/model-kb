@@ -4,7 +4,7 @@
 
 Create `model-kb/README.md` at the project directory root on use. If the project already has a canonical KB, make `model-kb/README.md` a small entrypoint to it and follow its existing evidence and status rules. The initializer detects common locations; pass `--canonical-index` for another project-relative Markdown index. In a project without an older KB, use `model-kb/README.md` as the canonical index and add topic files there only as needed. Keep project knowledge in the project directory, not in the skill folder or a chat transcript.
 
-The root `AGENTS.md` should point to the index and tell new agents to read only relevant topics and maintain them after material changes. An old worktree still sees its old `AGENTS.md` and KB until its Git state is updated.
+Each agent instruction file the project uses (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, optionally `.github/copilot-instructions.md`) carries the same short pointer: ingest teammates' commits, read the index and only relevant topics, and maintain them after material changes. Lasting facts go in topic pages; `model-kb/log/` holds one dated entry file per change. An old worktree still sees its old `AGENTS.md` and KB until its Git state is updated.
 
 ## What belongs in the KB
 
@@ -28,4 +28,4 @@ Documentation maintenance authorized by the user may include these reversible Ma
 
 ## Finish the update
 
-Check the changed-file list and diff, validate relative links, review dates and status labels, and scan changed content for accidental secrets. Verify that the index points to every current topic and that no link points into `~/.codex/worktrees/` or another disposable checkout. Report source coverage and uncertainty rather than saying the KB contains everything.
+Check the changed-file list and diff, validate relative links, review dates and status labels, and scan changed content for accidental secrets. Verify that the index points to every current topic and that no link points into `~/.codex/worktrees/`, `.claude/worktrees/`, or another disposable checkout. Report source coverage and uncertainty rather than saying the KB contains everything.
