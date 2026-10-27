@@ -32,6 +32,23 @@ class InitKbTests(unittest.TestCase):
         self.assertEqual(initialize(project).returncode, 0)
         self.assertEqual((index.read_text(), agents.read_text()), before)
         self.assertIn("model-kb/README.md", before[1])
+        for name in ("CLAUDE.md", "GEMINI.md"):
+            self.assertIn("model-kb/README.md", (project / name).read_text())
+        self.assertTrue((project / "model-kb" / "tools" / "kb_sync.py").is_file())
+        self.assertTrue((project / "model-kb" / "log" / "README.md").is_file())
+
+    def test_agent_selection_and_existing_files_appended_once(self):
+        project = self.root / "project"
+        project.mkdir()
+        (project / "CLAUDE.md").write_text("# Mine\n")
+        self.assertEqual(initialize(project, "--agents", "claude,copilot").returncode, 0)
+        self.assertEqual(initialize(project, "--agents", "claude,copilot").returncode, 0)
+        claude = (project / "CLAUDE.md").read_text()
+        self.assertTrue(claude.startswith("# Mine\n"))
+        self.assertEqual(claude.count("model-kb/README.md"), 1)
+        self.assertTrue((project / ".github" / "copilot-instructions.md").is_file())
+        self.assertFalse((project / "AGENTS.md").exists())
+        self.assertNotEqual(initialize(project, "--agents", "nope").returncode, 0)
 
     def test_nested_git_directory_uses_root_and_preserves_old_kb(self):
         project = self.root / "project"
